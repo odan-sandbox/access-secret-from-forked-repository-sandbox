@@ -16,12 +16,12 @@ jobs:
         env:
           FOO: ${{ secrets.FOO }}
 
-  approved:
-    if: github.event.review.state == 'approved'
+  submitted:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: echo "This PR was approved"
+      - run: echo "This PR was submitted"
+      - run: echo ${{ github.event.review.state }}
       - run: ./scripts/echo-foo.sh
         env:
           FOO: ${{ secrets.FOO }}
