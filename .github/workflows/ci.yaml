@@ -5,12 +5,15 @@ on:
     types: [opened, synchronize, reopened]
   pull_request_target:
     types: [opened, synchronize, reopened, labeled]
+  push:
+    branches:
+      - main
 
 jobs:
   can-run-ci:
     runs-on: ubuntu-latest
-    if: >
-      !github.event.pull_request.head.repo.fork ||
+    if: >-
+      (!github.event.pull_request.head.repo.fork) ||
       (github.event.pull_request.head.repo.fork &&
         github.event.action == "labeled" &&
         github.event.label.name == "safe-to-test")
