@@ -3,6 +3,8 @@ name: CI
 on:
   pull_request:
   pull_request_target:
+  pull_request_review:
+    types: [submitted]
 
 jobs:
   build:
@@ -10,6 +12,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - run: ./scripts/echo-foo.sh
+        env:
+          FOO: ${{ secrets.FOO }}
+
+  submitted:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: echo "This PR was submitted"
+      - run: echo ${{ github.event.review.state }}
       - run: ./scripts/echo-foo.sh
         env:
           FOO: ${{ secrets.FOO }}
